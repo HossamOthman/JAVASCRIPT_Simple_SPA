@@ -1,3 +1,9 @@
+const navigateTo = url => {
+    history.pushState(null, null, url);
+    router();
+}
+
+
 const router = async () => {
     const routes = [
         {path: "/", view: () => console.log("viewing Dashboard")},
@@ -27,6 +33,14 @@ const router = async () => {
 };
 
 
+window.addEventListener('popstate', router);
 
-
-document.addEventListener('DOMContentLoaded', router)
+document.addEventListener('DOMContentLoaded', () => {
+    document.body.addEventListener('click', e => {
+        if (e.target.matches('[data-link]')) {
+            e.preventDefault();
+            navigateTo(e.target.href)
+        }
+    })
+    router();
+})
